@@ -1,0 +1,29 @@
+az group create -n suriyakeastus -l eastus --tags owner=suriyak@microsoft.com deleteafter=2022-03-03
+az configure -l
+az configure -d group=suriyakeastus location=eastus
+az acr create -n suriyakeastusacr --sku Premium
+az ml workspace create -n suriyakws
+az configure -d workspace=suriyakeastusws
+az ml workspace update -n suriyakws --container-registry /subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakeastus/providers/Microsoft.ContainerRegistry/registries/suriyakeastusacr -y
+az ml online-endpoint create -w suriyakeastusws -f endpoints/online/managed/sample/endpoint.yml
+az ml online-deployment create -w suriyakeastusws -e suriyak0 -f endpoints/online/managed/sample/blue-deployment.yml --all-traffic
+az ml online-endpoint show -n suriyak0
+az ml online-endpoint show -n suriyak0
+az ml online-deployment get-logs -e suriyak0 -n suriyakblue
+
+az ml workspace list-keys -n suriyakeastusws
+az ml online-endpoint get-credentials -n suriyak0
+
+
+
+curl --request POST "https://suriyak0.eastus.inference.ml.azure.com/score" --header "Authorization: Bearer SP1QJNeSuZphm4QI9hRr1cSvQQkrszde" --header "Content-Type: application/json" --data @endpoints/online/model-1/sample-request.json
+
+
+
+
+
+az ml online-deployment update -e suriyak0 -n suriyakblue -f endpoints/online/managed/sample/blue-deployment.yml
+az ml online-endpoint update -n suriyak0 -r "suriyakblue 0" -y
+az ml online-deployment delete -e suriyak0 -n suriyakblue -y
+az ml online-endpoint delete -n suriyak0 -y
+az ml workspace delete -n suriyakws --all --yes

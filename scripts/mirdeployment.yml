@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: suriyak-dep-0
+endpoint_name: suriyak-ep-0
+model:
+  name: dummymodel
+  version: 1
+  local_path: ./
+environment:
+  name: suriyak-env-0
+  version: 1
+  image: docker.io/suriyakalivardhan/simpleinferencer:v0
+  inference_config:
+    liveness_route:
+      port: 5001
+      path: /healthcheck
+    readiness_route:
+      port: 5001
+      path: /healthcheck
+    scoring_route:
+      port: 5001
+      path: /inference
+instance_type: Standard_F2s_v2
+instance_count: 1

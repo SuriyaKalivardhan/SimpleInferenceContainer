@@ -17,7 +17,7 @@ all:
 	init clean build run
 
 docker-build:
-	docker build --no-cache -f Dockerfile -t suriyakeuapregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1 .
+	docker build --no-cache -f Dockerfile -t suriyakwcusregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1 .
 
 docker-push:
-	docker push suriyakeuapregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1
+	docker push suriyakwcusregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1

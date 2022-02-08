@@ -27,3 +27,11 @@ az ml online-endpoint update -n suriyak0 -r "suriyakblue 0" -y
 az ml online-deployment delete -e suriyak0 -n suriyakblue -y
 az ml online-endpoint delete -n suriyak0 -y
 az ml workspace delete -n suriyakws --all --yes
+
+
+az extension remove -n ml
+az extension add --source  https://azuremlsdktestpypi.blob.core.windows.net/wheels/azureml-v2-cli-e2e-test/55925236/ml-0.0.55925236-py3-none-any.whl --pip-extra-index-urls  https://azuremlsdktestpypi.azureedge.net/azureml-v2-cli-e2e-test/55925236 -y
+export AZURE_ML_CLI_PRIVATE_FEATURES_ENABLED=true
+az configure -d subscription=e54229a3-0e6f-40b3-82a1-ae9cda6e2b81 group=suriyakwcus location=westcentralus workspace=suriyakwsusws
+az ml online-endpoint create -n suriyak-ep-1 -f mirendpoint.yml
+az ml online-deployment create -e suriyak-ep-1 -n suriyak-dep-1 -f mirdeployment.yml

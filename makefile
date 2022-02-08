@@ -11,13 +11,13 @@ run:
 	go run cmd/simpleinferencer/main.go
 
 req:
-	curl -X POST localhost:5001/inference -H "Content-Type:application/json" -d '{"Id":"1234", "Type": "Infer", "Input":"Magi"}' | jq
+	curl -X POST localhost:5005/inference -H "Content-Type:application/json" -d '{"Id":"1234", "Type": "Infer", "Input":"Magi"}' | jq
 
 all:
 	init clean build run
 
 docker-build:
-	docker build --no-cache -f Dockerfile -t suriyakalivardhan/simpleinferencer:v0 .
+	docker build --no-cache -f Dockerfile -t suriyakeuapregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1 .
 
 docker-push:
-	docker push suriyakalivardhan/simpleinferencer:v0
+	docker push suriyakeuapregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1

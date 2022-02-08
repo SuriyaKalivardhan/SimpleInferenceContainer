@@ -40,6 +40,7 @@ func (s *Server) Routes() *mux.Router {
 func (s *Server) routes() []Route {
 	return []Route{
 		{"Health", http.MethodGet, "/healthcheck", s.HealthcheckHandler},
+		{"Test", http.MethodGet, "/test", s.TestcheckHandler},
 		{"Inference", http.MethodPost, "/inference", s.InferencingHandler},
 	}
 }
@@ -48,6 +49,12 @@ func (s *Server) HealthcheckHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Infof("Received HealthCheck request")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
+}
+
+func (s *Server) TestcheckHandler(w http.ResponseWriter, r *http.Request) {
+	logger.Infof("Received Test request")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Test Success"))
 }
 
 func (s *Server) InferencingHandler(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +78,7 @@ func (s *Server) InferencingHandler(w http.ResponseWriter, r *http.Request) {
 	resp := api.InferenceResponse{
 		Id:     req.Id,
 		Type:   req.Type,
-		Output: fmt.Sprintf("echoing %s", req.Input),
+		Output: fmt.Sprintf("echoing %s for suriya", req.Input),
 	}
 
 	respBody, err := json.Marshal(&resp)

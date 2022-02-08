@@ -16,7 +16,7 @@ az ml online-endpoint get-credentials -n suriyak0
 
 
 
-curl --request POST "https://suriyak0.eastus.inference.ml.azure.com/score" --header "Authorization: Bearer SP1QJNeSuZphm4QI9hRr1cSvQQkrszde" --header "Content-Type: application/json" --data @endpoints/online/model-1/sample-request.json
+curl --request POST "https://suriyaktestep.eastus.inference.ml.azure.com/inference" --header "Authorization: Bearer Wm0X2mKkzIdICEpg3RUSMhG9djSX0p9i" --header "Content-Type: application/json" -d '{"Id":"1234", "Type": "Infer", "Input":"Magi"}' | jq
 
 
 

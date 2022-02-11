@@ -1,0 +1,54 @@
+az extension remove -n ml
+az extenion list
+az extension add --source  https://azuremlsdktestpypi.blob.core.windows.net/wheels/azureml-v2-cli-e2e-test/55925236/ml-0.0.55925236-py3-none-any.whl --pip-extra-index-urls  https://azuremlsdktestpypi.azureedge.net/azureml-v2-cli-e2e-test/55925236 -y
+export AZURE_ML_CLI_PRIVATE_FEATURES_ENABLED=true
+az extenion list
+az configure -d subscription=e54229a3-0e6f-40b3-82a1-ae9cda6e2b81
+az group create -n suriyakcanary -l eastus2euap --tags owner=suriyak@microsoft.com deleteafter=2022-03-03
+az configure -d group=suriyakcanary location=eastus2euap
+az acr create -n suriyakcanaryregistry --sku premium
+az storage account create -n suriyakcanarystorage
+az keyvault create -n suriyakcanarykeyvault
+// TODO Find CLI command for AppInsights without monitor extension
+
+az account get-access-token
+// REST
+https://management.azure.com/subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakwcus/providers/Microsoft.MachineLearningServices/workspaces/suriyakwcusws?api-version=2021-03-01-preview
+{
+  "location": "westcentralus",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "friendlyName": "suriyakwcusws",
+    "description": "test description",
+    "containerRegistry": "/subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakwcus/providers/Microsoft.ContainerRegistry/registries/suriyakwcusregistry",
+    "keyVault": "/subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakwcus/providers/Microsoft.KeyVault/vaults/suriyakwcuskeyvault",
+    "applicationInsights": "/subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakwcus/providers/microsoft.insights/components/suriyakwcusappin",
+    "storageAccount": "/subscriptions/e54229a3-0e6f-40b3-82a1-ae9cda6e2b81/resourceGroups/suriyakwcus/providers/Microsoft.Storage/storageAccounts/suriyakwcusstorage"
+  }
+}
+
+
+az configure -d workspace=suriyakcanaryws
+
+
+
+az configure -l
+az ml online-endpoint list
+cd SimpleInferencer/scripts/
+az ml online-endpoint create -n suriyak-ep-3 -f mirendpoint.yml
+az acr login -n suriyakcanaryregistry
+cd SimpleInferencer
+#update the makefile to target appropriate WS registry
+make docker-build
+make docker-push
+cd SimpleInferencer/scripts/
+
+export AZURE_ML_CLI_PRIVATE_FEATURES_ENABLED=true
+az ml online-deployment create -e suriyak-ep-3 -n suriyak-dep-3 -f mirdeployment.yml --set private_network_connection=true
+
+// TODO: Gets logs, scoring with Colins change or with proper fix
+(Before 4.30)
+
+

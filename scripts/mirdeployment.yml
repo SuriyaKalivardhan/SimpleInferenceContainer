@@ -1,6 +1,6 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
 name: suriyak-dep-1
-endpoint_name: suriyak-ep-1
+endpoint_name: suriyak-ep-2
 private_network_connection: true
 model:
   name: suriyak-model-1
@@ -9,7 +9,7 @@ model:
 environment:
   name: suriyak-env-1
   version: 1
-  image: suriyakwcusregistry.azurecr.io/suriyakalivardhan/simpleinferencer:v1
+  image: vnetwcuspublicacr.azurecr.io/suriyakalivardhan/simpleinferencer:v1
   inference_config:
     liveness_route:
       port: 5001
